@@ -25,7 +25,13 @@ angular.module('umanit', ['ngRoute'])
         $scope.select = function(id) {
             $scope.selected = id;
             ProxyService.selected = id;
-        }
+        };
+
+        $scope.$watch(function(scope) {
+            return scope.selected;
+        }, function(newValue, oldValue) {
+            ProxyService.selected = newValue;
+        });
     })
 
     .service('ProxyService', ['$http', '$q', function($http, $q) {
