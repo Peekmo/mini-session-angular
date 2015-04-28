@@ -36,7 +36,6 @@ angular.module('umanit', ['ngRoute'])
 
             $http.get('news.json')
                 .success(function(data) {
-                    console.log('ok');
                     defer.resolve(data);
                 })
             ;
