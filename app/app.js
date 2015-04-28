@@ -36,6 +36,7 @@ angular.module('umanit', ['ngRoute'])
 
             $http.get('news.json')
                 .success(function(data) {
+                    console.log('ok');
                     defer.resolve(data);
                 })
             ;
@@ -43,13 +44,13 @@ angular.module('umanit', ['ngRoute'])
             return defer.promise;
         }
 
+        var defer1 = $q.defer();
+        defer1.resolve(get());
+
         return {
             selected: 0,
             getNews: function() {
-                var defer = $q.defer();
-
-                defer.resolve(get());
-                return defer.promise;
+                return defer1.promise;
             }
         }
     }])
