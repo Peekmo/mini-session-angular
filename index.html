@@ -6,23 +6,12 @@
 
         <link rel="stylesheet" type="text/css" href="../node_modules/bootstrap/dist/css/bootstrap.min.css"/>
         <script type="text/javascript" src="../node_modules/angular/angular.min.js"></script>
-        <script type="text/javascript" src="../node_modules/angular/angular.min.js.map"></script>
+        <script type="text/javascript" src="../node_modules/angular-route/angular-route.min.js"></script>
         <script type="text/javascript" src="app/app.js"></script>
     </head>
 
     <body ng-app="umanit">
-        <div ng-controller="UmanitCtrl">
-            <input type="text" ng-model="name"/>
-            {{ name }}
-
-            <ul>
-                <li ng-repeat="sage in age">{{$index}} : {{ sage }}</li>
-            </ul>
-
-            <div ng-if="name == 'umanit'">Bonjour</div>
-
-            <div ng-class="getClass()">Alerte!</div>
-            <ng-include src="'include.html'"></ng-include>
+        <div ng-view>
         </div>
     </body>
 </html>

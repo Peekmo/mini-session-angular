@@ -1,23 +1,56 @@
-angular.module('umanit', [])
-    .controller('UmanitCtrl', function($scope, $http) {
-        $scope.name = "Toto";
+angular.module('umanit', ['ngRoute'])
+    .config(['$routeProvider', function($routeProvider) {
+        $routeProvider
+            .when('/home', {
+                templateUrl: 'partials/home.html',
+                controller: 'MainCtrl'
+            })
+            .when('/page2', {
+                templateUrl: 'partials/page2.html',
+                controller: 'MainCtrl'
+            })
+            .otherwise({
+                redirectTo: '/home'
+            });
+    }])
 
-        $scope.age = [
-            10,
-            10,
-            25
-        ];
+    .controller('MainCtrl', function($scope, ProxyService) {
+        $scope.data = [];
+        $scope.selected = ProxyService.selected;
 
-        $scope.isNameValid = function() {
-            return $scope.name == "umanit";
-        };
+        ProxyService.getNews().then(function(data) {
+            $scope.data = data;
+        });
 
-        $scope.getClass = function() {
-            if ($scope.name == 'umanit') {
-                return 'alert-success';
-            }
-
-            return 'alert-danger';
-        };
+        $scope.select = function(id) {
+            $scope.selected = id;
+            ProxyService.selected = id;
+        }
     })
+
+    .service('ProxyService', ['$http', '$q', function($http, $q) {
+        var news = [];
+
+        var get = function() {
+            var defer = $q.defer();
+
+            $http.get('news.json')
+                .success(function(data) {
+                    defer.resolve(data);
+                })
+            ;
+
+            return defer.promise;
+        }
+
+        return {
+            selected: 0,
+            getNews: function() {
+                var defer = $q.defer();
+
+                defer.resolve(get());
+                return defer.promise;
+            }
+        }
+    }])
 ;
